@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
+import { SubirPage  } from '../subir/subir';
+
 
 @Component({
   selector: 'page-home',
@@ -7,8 +9,15 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor( private modalCtr:ModalController ) {
 
+  }
+
+  mostrar_model(){
+
+    let modal = this.modalCtr.create( SubirPage );
+    modal.present();
+    
   }
 
 }

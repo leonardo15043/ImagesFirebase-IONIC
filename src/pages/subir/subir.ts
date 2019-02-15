@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
-
+import { ImagePicker , ImagePickerOptions } from '@ionic-native/image-picker';
 
 @Component({
   selector: 'page-subir',
@@ -15,7 +15,8 @@ export class SubirPage {
 
   constructor( 
     private viewCtr:ViewController,
-    private camera: Camera
+    private camera: Camera,
+    private imagePicker: ImagePicker
      ) {
   }
 
@@ -33,14 +34,34 @@ export class SubirPage {
     }
     
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
+
      this.imagenPreview = 'data:image/jpeg;base64,' + imageData;
 
     }, (err) => {
       console.error("ERROR EN LA CAMARA ", JSON.stringify(err));
     });
     
+  }
+
+  seleccionar_foto(){
+
+    console.log("seleccionar foto");
+
+    let options:ImagePickerOptions = {
+      quality: 70, //calidad de la imagen
+      outputType: 1, // formato , en este case base64
+      maximumImagesCount: 1 //cantidad de imagenes permitida para capturar
+    }
+
+    this.imagePicker.getPictures(options).then((results) => {
+   
+      for (var i = 0; i < results.length; i++) {
+          this.imagenPreview = 'data:image/jpeg;base64,' + results[i];
+      }
+    }, (err) => { 
+        console.error("Error al seleccionar imagen: " , JSON.stringify(err));
+    });
+
   }
 
 }

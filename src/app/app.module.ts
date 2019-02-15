@@ -8,6 +8,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SubirPage } from '../pages/subir/subir';
 
+import { HttpClientModule  } from '@angular/common/http';
+
 //Pipes
 import { PipesModule } from '../pipes/pipes.module';
 
@@ -19,6 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { Camera } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { CargarArchivoProvider } from '../providers/cargar-archivo/cargar-archivo';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBgyfnR0NQHygulZk-SMiSOy28sh73BLdo",
@@ -42,7 +45,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    PipesModule
+    PipesModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,7 +60,8 @@ export const firebaseConfig = {
     AngularFireDatabase,
     Camera,
     ImagePicker,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    CargarArchivoProvider
   ]
 })
 export class AppModule {}

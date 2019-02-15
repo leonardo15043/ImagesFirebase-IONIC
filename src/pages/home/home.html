@@ -9,12 +9,13 @@
 <ion-content>
 
 
-    <ion-card>
-        <img src="https://media.biobiochile.cl/wp-content/uploads/2019/02/noticia-1550028031-memes1-1.png">
+    <ion-card *ngFor="let item of items | async">
+
+        <img [src]="item.img">
 
         <ion-card-content>
             <ion-card-title>
-                Post 1
+                {{ item.titulo }}
             </ion-card-title>
         </ion-card-content>
 

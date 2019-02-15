@@ -11,7 +11,7 @@
         <ion-title>{{ titulo | placeHolder:'Crear nuevo post' }}</ion-title>
 
         <ion-buttons end>
-            <button ion-button (click)="crear_post()">
+            <button ion-button (click)="crear_post()" [disabled]=" titulo.length <= 1 || imagenPreview.length <= 1">
                 Crear post
             </button>
         </ion-buttons>

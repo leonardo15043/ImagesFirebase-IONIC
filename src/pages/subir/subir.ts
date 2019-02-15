@@ -12,8 +12,8 @@ import { CargarArchivoProvider } from '../../providers/cargar-archivo/cargar-arc
 })
 export class SubirPage {
 
-  titulo: string;
-  imagenPreview: string;
+  titulo: string = "";
+  imagenPreview: string = "";
   imagen64:string;
 
   constructor( 
@@ -31,7 +31,7 @@ export class SubirPage {
   mostrar_camara(){
 
     const options: CameraOptions = {
-      quality: 100,
+      quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
@@ -77,7 +77,10 @@ export class SubirPage {
       titulo: this.titulo
     }
 
-    this._cap.cargar_imagen_firebase( archivo );
+    this._cap.cargar_imagen_firebase( archivo ).then(
+      ()=> this.cerrar_modal(), // ya cuando cargue la imagen en le storage y guarde el registro en la base de datos cerrara el modal
+      (err)=> console.log(err)
+    );
   }
 
 }

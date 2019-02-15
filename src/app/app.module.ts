@@ -8,6 +8,20 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SubirPage } from '../pages/subir/subir';
 
+//Firebase
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBgyfnR0NQHygulZk-SMiSOy28sh73BLdo",
+  authDomain: "imagesfirebaseionic.firebaseapp.com",
+  databaseURL: "https://imagesfirebaseionic.firebaseio.com",
+  projectId: "imagesfirebaseionic",
+  storageBucket: "imagesfirebaseionic.appspot.com",
+  messagingSenderId: "1091909961356"
+};
+
 
 @NgModule({
   declarations: [
@@ -17,7 +31,10 @@ import { SubirPage } from '../pages/subir/subir';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -28,6 +45,7 @@ import { SubirPage } from '../pages/subir/subir';
   providers: [
     StatusBar,
     SplashScreen,
+    AngularFireDatabase,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

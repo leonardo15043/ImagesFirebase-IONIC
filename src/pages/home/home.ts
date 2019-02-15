@@ -14,7 +14,7 @@ export class HomePage {
     
   items: Observable<any[]>;
 
-  constructor( 
+  constructor(  
     private modalCtr:ModalController, afDB: AngularFireDatabase
      ) {
       this.items = afDB.list('post').valueChanges();

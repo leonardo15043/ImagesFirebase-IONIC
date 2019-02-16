@@ -16,6 +16,7 @@ import { CargarArchivoProvider } from '../../providers/cargar-archivo/cargar-arc
 export class HomePage {
     
   // items: Observable<any[]>;
+  hayMas: boolean = true;
 
   constructor(  
     private modalCtr:ModalController,  
@@ -31,5 +32,20 @@ export class HomePage {
     modal.present();
     
   }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    //llamamos el metodo cargar_imagenes para 
+    //cargar las demas imagenes cuando hagamos scroll
+    this._cap.cargar_imagenes().then(
+      ( hayMas:boolean )=>{
+        this.hayMas = hayMas;
+        infiniteScroll.complete();
+      }
+    );
+
+    
+  } 
 
 }

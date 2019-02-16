@@ -3,17 +3,76 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ToastController } from 'ionic-angular';
 
 import * as firebase from 'firebase';
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class CargarArchivoProvider {
 
-  imagenes: ArchivoSubir[] =  [];
+  imagenes: ArchivoSubir[] = [];
+  lastKey: string = null;
 
   constructor(
     public toastCtrl: ToastController,
     public afDB:AngularFireDatabase
   ) {
-    console.log('Hello CargarArchivoProvider Provider');
+    this.cargar_ultimo_key();
+  }
+
+  private cargar_ultimo_key(){
+
+   return  this.afDB.list('/post', ref=> ref.orderByKey().limitToLast(1)) //traemos el ultimo elemento insertado
+             .valueChanges()
+             .subscribe( (post:any) =>{ //nos subscribimos a la promesa 
+
+               this.lastKey = post[0].key; //asignamos el key a la variable lastKey
+               this.imagenes.push( post[0] ); //agregamos todo los datos de post al objeto imagenes
+
+               this.cargar_imagenes();
+
+             });
+             
+  }
+
+  cargar_imagenes(){
+
+    let promesa = new Promise((resolve , reject)=>{
+        
+        this.afDB.list('/post' , 
+          ref=> ref.limitToLast(3)  //traemos los ultimos 3 registros
+                  .orderByKey()  //ordenamos por la llave 
+                  .endAt( this.lastKey ) //la consulta terminara hasta el id que este en lastKey
+        ).valueChanges()
+          .subscribe( ( posts:any )=>{
+
+            posts.pop(); //eliminamos el ultimo regustro por que estaria duplicado
+
+            if( posts.length == 0 ){ //validamos si no hay registros 
+                console.log("Ya no hay mas registros");
+                resolve(false); //terminamos la promesa sabiendo que ya no hay mas imagenes 
+                return;
+            }
+
+            //si hay registros
+
+            this.lastKey = posts[0].key; //asignamos el ultimo registro
+
+            //hacemos el ciclo de los registro pero de manera inversa para que me 
+              //muestre el ultimo registro ingresado de primeras 
+              
+            for( let i = posts.length-1; i>= 0; i--){ 
+              let post = posts[i];
+              this.imagenes.push(post); //agregamos los post al objeto imagenes
+            }
+
+            resolve(true);
+
+          })
+
+    });
+
+    return promesa;
+
   }
 
 

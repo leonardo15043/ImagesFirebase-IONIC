@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 import { SubirPage  } from '../subir/subir';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 // import { AngularFireDatabase } from '@angular/fire/database';
 // import { Observable } from 'rxjs/Observable';
@@ -20,7 +21,9 @@ export class HomePage {
 
   constructor(  
     private modalCtr:ModalController,  
-    public _cap:CargarArchivoProvider
+    public _cap:CargarArchivoProvider,
+    private socialSharing: SocialSharing,
+ 
     // afDB: AngularFireDatabase
      ) {
       // this.items = afDB.list('post').valueChanges();
@@ -45,6 +48,15 @@ export class HomePage {
       }
     );
 
+  }
+  
+  compartir( post ){
+  
+    this.socialSharing.shareViaWhatsApp( post.titulo, post.img ).then(() => {
+      this._cap.mostrar_toast("La publicacion "+post.titulo+" fue compartida correctamente");
+    }).catch(() => {
+      this._cap.mostrar_toast("Ocurrio un error al compartir la publicación");
+    });
     
   } 
 

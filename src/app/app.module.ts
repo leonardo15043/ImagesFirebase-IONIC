@@ -21,7 +21,10 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { Camera } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 import { CargarArchivoProvider } from '../providers/cargar-archivo/cargar-archivo';
+
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBgyfnR0NQHygulZk-SMiSOy28sh73BLdo",
@@ -60,6 +63,7 @@ export const firebaseConfig = {
     AngularFireDatabase,
     Camera,
     ImagePicker,
+    SocialSharing,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CargarArchivoProvider
   ]
